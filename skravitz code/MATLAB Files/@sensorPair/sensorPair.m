@@ -1,0 +1,71 @@
+function obj = sensorPair(Index,Data,varargin)
+% Constructor for the sensorPair class; sensorPairs conceptually represent 
+% either individual sensors or a pair of sub-sensorPairs. They have an 
+% index (for identification) and an array of data, and if they represent a
+% pair of sub-sensorPairs, they also have each of the pairs as well as a
+% similarity coefficient between 0 and 1 which represents the similarity of
+% the responses of the two pairs (with 1 being identical). They also have
+% an x,y position for the purpose of visualizing a cluster of nested
+% sensorPairs and the total number of sensors contained in the cluster.
+    numOptArgs = size(varargin,2);
+    numStdArgs = nargin - numOptArgs;
+    % If there are fewer than 2 arguments, create an empty sensorPair
+    if numStdArgs < 2
+        obj.index = [];
+        obj.data = [];
+        obj.sensor1 = [];
+        obj.sensor2 = [];
+        obj.simCoeff = [];
+        obj.pos = [];
+        obj.numSensors = 1;
+        obj = class(obj,'sensorPair');
+    else
+        % If there are at least 2 arguments, include the index and data
+        obj.index = Index;
+        obj.data = Data;
+        % If there are 3 additional optional arguments (in varargin), and
+        % the first two are sensorPair objects, this sensorPair contains 
+        % sub-sensorPairs, which are stored in sensor1 and sensor2, as well
+        % as their similarity coefficient
+        switch numOptArgs
+            case 0
+                obj.sensor1 = [];
+                obj.sensor2 = [];
+                obj.simCoeff = [];
+                obj.pos = [];
+                obj.numSensors = 1;
+            case 3
+                if isa(varargin{1},'sensorPair') && isa(varargin{2},'sensorPair')
+                    obj.sensor1 = varargin{1};
+                    obj.sensor2 = varargin{2};
+                    obj.simCoeff = varargin{3};
+                    obj.pos = [];
+                    obj.numSensors = get(varargin{1},'NumSensors')+get(varargin{1},'NumSensors');
+                else
+                    obj.sensor1 = [];
+                    obj.sensor2 = [];
+                    obj.simCoeff = [];
+                    obj.pos = [];
+                    obj.numSensors = 1;
+                end
+            case 4
+                if isa(varargin{1},'sensorPair') && isa(varargin{2},'sensorPair')
+                    obj.sensor1 = varargin{1};
+                    obj.sensor2 = varargin{2};
+                    obj.simCoeff = varargin{3};
+                    obj.pos = varargin{4};
+                    obj.numSensors = get(varargin{1},'NumSensors')+get(varargin{1},'NumSensors');
+                else
+                    obj.sensor1 = [];
+                    obj.sensor2 = [];
+                    obj.simCoeff = [];
+                    obj.pos = [-1; -1];
+                    obj.numSensors = 1;
+                end
+            otherwise
+                error('Wrong number of input arguments')
+        end
+        obj = class(obj,'sensorPair');
+    end
+
+end
