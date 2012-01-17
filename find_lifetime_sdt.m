@@ -8,13 +8,13 @@ function [tau,varargout] = find_lifetime_sdt(bUseDoubleExp, fileName)
    % numSamps = 220;             %Number of samps to extract.  Should be equal to or less than number of time bins used during acq.
    numSamps = 200; 
    %StartSamp = 290;            %sdt files contain data for all channels.  This tells function where the data we are interested in starts.
-    StartSamp = 270;
+    StartSamp = 280;
    %StartSamp =310; 
    goodnessOfFitThreshold = 0.92;
     Debug = 1;
     bShowFit = 1;
     bNormalize = 0;
-    tau_estimate = 670e-6;
+    tau_estimate = 67e-6;
 
 %% Get the data
 
